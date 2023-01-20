@@ -44,13 +44,13 @@ create_config() {
     POSTGRES_PASSWORD=$(pwgen -1s 32)
     REDASH_DATABASE_URL="postgresql://postgres:${POSTGRES_PASSWORD}@postgres/postgres"
 
-    echo "PYTHONUNBUFFERED=0" | sudo tee $REDASH_BASE_PATH/env
-    echo "REDASH_LOG_LEVEL=INFO" | sudo tee $REDASH_BASE_PATH/env
-    echo "REDASH_REDIS_URL=redis://redis:6379/0" | sudo tee $REDASH_BASE_PATH/env
-    echo "POSTGRES_PASSWORD=$POSTGRES_PASSWORD" | sudo tee $REDASH_BASE_PATH/env
-    echo "REDASH_COOKIE_SECRET=$COOKIE_SECRET" | sudo tee $REDASH_BASE_PATH/env
-    echo "REDASH_SECRET_KEY=$SECRET_KEY" | sudo tee $REDASH_BASE_PATH/env
-    echo "REDASH_DATABASE_URL=$REDASH_DATABASE_URL" | sudo tee $REDASH_BASE_PATH/env
+    echo "PYTHONUNBUFFERED=0" | sudo tee -a $REDASH_BASE_PATH/env
+    echo "REDASH_LOG_LEVEL=INFO" | sudo tee -a $REDASH_BASE_PATH/env
+    echo "REDASH_REDIS_URL=redis://redis:6379/0" | sudo tee -a $REDASH_BASE_PATH/env
+    echo "POSTGRES_PASSWORD=$POSTGRES_PASSWORD" | sudo tee -a $REDASH_BASE_PATH/env
+    echo "REDASH_COOKIE_SECRET=$COOKIE_SECRET" | sudo tee -a $REDASH_BASE_PATH/env
+    echo "REDASH_SECRET_KEY=$SECRET_KEY" | sudo tee -a $REDASH_BASE_PATH/env
+    echo "REDASH_DATABASE_URL=$REDASH_DATABASE_URL" | sudo tee -a $REDASH_BASE_PATH/env
 }
 
 setup_compose() {
