@@ -44,13 +44,13 @@ create_config() {
     POSTGRES_PASSWORD=$(pwgen -1s 32)
     REDASH_DATABASE_URL="postgresql://postgres:${POSTGRES_PASSWORD}@postgres/postgres"
 
-    echo "PYTHONUNBUFFERED=0" >> $REDASH_BASE_PATH/env
-    echo "REDASH_LOG_LEVEL=INFO" >> $REDASH_BASE_PATH/env
-    echo "REDASH_REDIS_URL=redis://redis:6379/0" >> $REDASH_BASE_PATH/env
-    echo "POSTGRES_PASSWORD=$POSTGRES_PASSWORD" >> $REDASH_BASE_PATH/env
-    echo "REDASH_COOKIE_SECRET=$COOKIE_SECRET" >> $REDASH_BASE_PATH/env
-    echo "REDASH_SECRET_KEY=$SECRET_KEY" >> $REDASH_BASE_PATH/env
-    echo "REDASH_DATABASE_URL=$REDASH_DATABASE_URL" >> $REDASH_BASE_PATH/env
+    echo "PYTHONUNBUFFERED=0" | sudo tee $REDASH_BASE_PATH/env
+    echo "REDASH_LOG_LEVEL=INFO" | sudo tee $REDASH_BASE_PATH/env
+    echo "REDASH_REDIS_URL=redis://redis:6379/0" | sudo tee $REDASH_BASE_PATH/env
+    echo "POSTGRES_PASSWORD=$POSTGRES_PASSWORD" | sudo tee $REDASH_BASE_PATH/env
+    echo "REDASH_COOKIE_SECRET=$COOKIE_SECRET" | sudo tee $REDASH_BASE_PATH/env
+    echo "REDASH_SECRET_KEY=$SECRET_KEY" | sudo tee $REDASH_BASE_PATH/env
+    echo "REDASH_DATABASE_URL=$REDASH_DATABASE_URL" | sudo tee $REDASH_BASE_PATH/env
 }
 
 setup_compose() {
@@ -59,8 +59,8 @@ setup_compose() {
     echo $LATEST_VERSION
     cd $REDASH_BASE_PATH
     GIT_BRANCH="${REDASH_BRANCH:-master}" # Default branch/version to master if not specified in REDASH_BRANCH env var
-    wget https://raw.githubusercontent.com/getredash/setup/${GIT_BRANCH}/data/docker-compose.yml
-    sed -i "s/image: redash\/redash:([A-Za-z0-9.-]*)/image: redash\/redash:$LATEST_VERSION/" docker-compose.yml
+    sudo wget https://raw.githubusercontent.com/getredash/setup/${GIT_BRANCH}/data/docker-compose.yml
+    sudo sed -i '' "s/image: redash\/redash:([A-Za-z0-9.-]*)/image: redash\/redash:$LATEST_VERSION/" docker-compose.yml
     echo "export COMPOSE_PROJECT_NAME=redash" >> ~/.profile
     echo "export COMPOSE_FILE=/opt/redash/docker-compose.yml" >> ~/.profile
     export COMPOSE_PROJECT_NAME=redash
